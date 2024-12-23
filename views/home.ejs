@@ -5,8 +5,25 @@
     <title>Document</title>
   </head>
   <body>
-    <%- include('./partials/nav.ejs') %>
-    <%= JSON.stringify(user) %>
-    <%- include('./partials/script.ejs') %>
+    <%- include('./partials/nav.ejs') %> <% if (Array.isArray(blogs) &&
+    blogs.length > 0) { %> <% blogs.forEach(blog => { %>
+    <div class="container mt-4">
+      <div class="card" style="width: 18rem">
+        <img
+          src="<%= blog.coverImage %>"
+          class="card-img-top"
+          alt="coverImage"
+        />
+        <div class="card-body">
+          <h5 class="card-title"><%= blog.title %></h5>
+          <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read...</a>
+        </div>
+      </div>
+    </div>
+    <% }) %> <% } else { %>
+    <p class="container mt-4">
+      No blogs to display or only one blog available.
+    </p>
+    <% } %> <%- include('./partials/script.ejs') %>
   </body>
 </html>
