@@ -28,11 +28,20 @@ router
   .post(async (req, res) => {
     let { email, password } = req.body;
 
-    let user = await User.matchPassword(email, password);
-    console.log(user);
-    if (!user) return res.redirect("/signin");
-
-    return res.redirect("/");
+    try {
+      let token = await User.matchPasswordAndGenerateToken(email, password);
+      console.log(token);
+      if (!token) return res.redirect("/signin");
+      return res.cookie("token", token).redirect("/");
+    } catch (error) {
+      res.render("signin", {
+        error: "Incorrect Password or Email",
+      });
+    }
   });
+
+  router.get("/logout",(req,res)=>{
+    res.clearCookie("token").redirect("/")
+  })
 
 module.exports = router;
