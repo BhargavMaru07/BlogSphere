@@ -28,7 +28,6 @@ app.use("/blog", blogRoute);
 
 app.get("/", async (req, res) => {
   let allBlogs = await Blog.find({})
-  console.log(allBlogs);
   res.render("home",{
     user:req.user,
     blogs:allBlogs
